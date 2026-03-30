@@ -56,7 +56,7 @@ const AchieversPage = () => {
       {/* Perfect Attendance */}
       {data.perfect.length > 0 && (
         <div className="bg-card rounded-xl p-6 border border-border">
-          <h3 className="font-display text-foreground mb-4 border-b border-accent pb-2">🏅 Perfect Attendance (100%)</h3>
+          <h3 className="font-display text-foreground mb-4 border-b border-accent pb-2">Perfect Attendance (100%)</h3>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {data.perfect.map((r: any) => (
               <div key={r.m.id} className="rounded-xl p-5 text-center border-2 border-accent bg-accent/5">
