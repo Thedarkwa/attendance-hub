@@ -38,7 +38,7 @@ const AchieversPage = () => {
     return { perfect, top3, bestByPart, monthName };
   }, [monthVal, members, attendance]);
 
-  const medals = ["🥇", "🥈", "🥉"];
+  const medals = ["1st", "2nd", "3rd"];
 
   return (
     <div className="space-y-6">
