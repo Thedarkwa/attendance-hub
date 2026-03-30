@@ -43,7 +43,7 @@ const AchieversPage = () => {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between flex-wrap gap-4">
-        <h2 className="font-display text-2xl text-foreground">🏆 Monthly Achievers</h2>
+        <h2 className="font-display text-2xl text-foreground">Monthly Achievers</h2>
         <input type="month" value={monthVal} onChange={(e) => setMonthVal(e.target.value)}
           className="rounded-lg bg-card border border-border px-4 py-2 text-foreground text-sm" />
       </div>
