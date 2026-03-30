@@ -34,9 +34,8 @@ const Index = () => {
         {activeTab === "reports" && <ReportsPage />}
         {activeTab === "achievers" && <AchieversPage />}
       </main>
-      <footer className="text-center py-4 text-foreground/40 text-xs border-t border-border mt-10"
-        style={{ background: "var(--header-gradient)" }}>
-        © {new Date().getFullYear()} <span className="text-accent">Victory Vocals Ghana</span>. All rights reserved.
+      <footer className="text-center py-4 text-muted-foreground text-xs border-t border-border mt-10 bg-secondary">
+        © {new Date().getFullYear()} <span className="text-primary font-semibold">Victory Vocals Ghana</span>. All rights reserved.
       </footer>
     </div>
   );
