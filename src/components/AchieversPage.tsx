@@ -49,7 +49,7 @@ const AchieversPage = () => {
       </div>
 
       <div className="text-center mb-6">
-        <h3 className="font-display text-xl text-foreground">🌟 Outstanding Members — {data.monthName}</h3>
+        <h3 className="font-display text-xl text-foreground">Outstanding Members — {data.monthName}</h3>
         <p className="text-foreground/60 text-sm">Members with 100% attendance are celebrated below</p>
       </div>
 
