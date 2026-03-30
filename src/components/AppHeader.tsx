@@ -1,6 +1,7 @@
 import { useAuth } from "@/hooks/useAuth";
 import { Button } from "@/components/ui/button";
 import { LogOut } from "lucide-react";
+import victoryLogo from "@/assets/victory_logo.jpeg";
 
 const AppHeader = () => {
   const { user, signOut } = useAuth();
@@ -8,9 +9,7 @@ const AppHeader = () => {
   return (
     <header className="sticky top-0 z-50 h-20 px-6 flex items-center justify-between shadow-sm border-b border-border bg-primary">
       <div className="flex items-center gap-3">
-        <div className="w-14 h-14 rounded-full bg-primary-foreground/20 flex items-center justify-center">
-          <span className="font-display text-primary-foreground text-lg font-bold tracking-wide">VVG</span>
-        </div>
+        <img src={victoryLogo} alt="Victory Vocals Ghana" className="h-12 object-contain" />
       </div>
       <div className="absolute left-1/2 -translate-x-1/2 text-center">
         <h1 className="font-display text-primary-foreground text-lg font-bold tracking-wide">
