@@ -73,7 +73,7 @@ const AchieversPage = () => {
 
       {/* Top 3 */}
       <div className="bg-card rounded-xl p-6 border border-border">
-        <h3 className="font-display text-foreground mb-4 border-b border-accent pb-2">🥇 Top 3 Overall Performers</h3>
+        <h3 className="font-display text-foreground mb-4 border-b border-accent pb-2">Top 3 Overall Performers</h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {data.top3.map((r: any, i: number) => (
             <div key={r.m.id} className="rounded-xl p-5 text-center border-2 border-accent bg-accent/5">
