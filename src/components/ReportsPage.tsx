@@ -150,15 +150,15 @@ const ReportsPage = () => {
       {/* Stats */}
       <div className="grid grid-cols-2 sm:grid-cols-5 gap-4">
         {[
-          { label: "Members", value: report.rows.length, gradient: "from-primary to-accent" },
-          { label: "Sessions", value: report.totalSessions, gradient: "from-blue-600 to-blue-400" },
-          { label: "Avg Present", value: Math.round(report.rows.reduce((a, r) => a + r.present, 0) / (report.rows.length || 1)), gradient: "from-success to-emerald-400" },
-          { label: "Poor Attendance", value: report.poorAtt.length, gradient: "from-destructive to-red-400" },
-          { label: "Avg Performance", value: `${report.avgPct}%`, gradient: "from-purple-600 to-purple-400" },
+          { label: "Members", value: report.rows.length, bg: "bg-primary" },
+          { label: "Sessions", value: report.totalSessions, bg: "bg-accent" },
+          { label: "Avg Present", value: Math.round(report.rows.reduce((a, r) => a + r.present, 0) / (report.rows.length || 1)), bg: "bg-success" },
+          { label: "Poor Attendance", value: report.poorAtt.length, bg: "bg-destructive" },
+          { label: "Avg Performance", value: `${report.avgPct}%`, bg: "bg-secondary" },
         ].map((s) => (
-          <div key={s.label} className={`rounded-xl p-5 text-center bg-gradient-to-br ${s.gradient} shadow-lg`}>
-            <div className="font-display text-3xl font-bold text-foreground">{s.value}</div>
-            <div className="text-xs uppercase tracking-wider text-foreground/80 mt-1">{s.label}</div>
+          <div key={s.label} className={`rounded-xl p-5 text-center ${s.bg} shadow-sm`}>
+            <div className="font-display text-3xl font-bold text-primary-foreground">{s.value}</div>
+            <div className="text-xs uppercase tracking-wider text-primary-foreground/80 mt-1">{s.label}</div>
           </div>
         ))}
       </div>
