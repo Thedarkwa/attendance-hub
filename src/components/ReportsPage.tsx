@@ -206,7 +206,7 @@ const ReportsPage = () => {
           Poor Attendance (2+ absences in selected month)
         </h3>
         {report.poorAtt.length === 0 ? (
-          <p className="text-success py-4">No members with poor attendance this period. 🎉</p>
+          <p className="text-success py-4">No members with poor attendance this period.</p>
         ) : (
           <table className="w-full text-sm">
             <thead>

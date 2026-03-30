@@ -1,11 +1,11 @@
 import { cn } from "@/lib/utils";
 
 const tabs = [
-  { id: "dashboard", label: "📊 Dashboard" },
-  { id: "attendance", label: "✅ Attendance" },
-  { id: "members", label: "👥 Members" },
-  { id: "reports", label: "📋 Reports" },
-  { id: "achievers", label: "🏆 Achievers" },
+  { id: "dashboard", label: "Dashboard" },
+  { id: "attendance", label: "Attendance" },
+  { id: "members", label: "Members" },
+  { id: "reports", label: "Reports" },
+  { id: "achievers", label: "Achievers" },
 ];
 
 interface AppNavProps {

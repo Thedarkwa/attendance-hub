@@ -91,9 +91,9 @@ const AchieversPage = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {data.bestByPart.map((r: any) => (
           <div key={r.part} className="bg-card rounded-xl p-6 border border-border">
-            <h3 className="font-display text-foreground mb-4">🎵 Best in {r.part}</h3>
+            <h3 className="font-display text-foreground mb-4">Best in {r.part}</h3>
             <div className="rounded-xl p-5 text-center border-2 border-accent bg-accent/5 max-w-xs mx-auto">
-              <div className="text-3xl mb-2">🏆</div>
+              <div className="text-sm font-bold text-accent mb-2">Top</div>
               <div className="font-display font-bold text-foreground">{r.m.first_name} {r.m.last_name}</div>
               <div className="text-xs uppercase tracking-wider text-primary">{r.m.part}</div>
               <div className="font-display text-2xl font-bold text-accent mt-2">{r.pct}%</div>
