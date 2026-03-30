@@ -38,29 +38,29 @@ const AchieversPage = () => {
     return { perfect, top3, bestByPart, monthName };
   }, [monthVal, members, attendance]);
 
-  const medals = ["🥇", "🥈", "🥉"];
+  const medals = ["1st", "2nd", "3rd"];
 
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between flex-wrap gap-4">
-        <h2 className="font-display text-2xl text-foreground">🏆 Monthly Achievers</h2>
+        <h2 className="font-display text-2xl text-foreground">Monthly Achievers</h2>
         <input type="month" value={monthVal} onChange={(e) => setMonthVal(e.target.value)}
           className="rounded-lg bg-card border border-border px-4 py-2 text-foreground text-sm" />
       </div>
 
       <div className="text-center mb-6">
-        <h3 className="font-display text-xl text-foreground">🌟 Outstanding Members — {data.monthName}</h3>
+        <h3 className="font-display text-xl text-foreground">Outstanding Members — {data.monthName}</h3>
         <p className="text-foreground/60 text-sm">Members with 100% attendance are celebrated below</p>
       </div>
 
       {/* Perfect Attendance */}
       {data.perfect.length > 0 && (
         <div className="bg-card rounded-xl p-6 border border-border">
-          <h3 className="font-display text-foreground mb-4 border-b border-accent pb-2">🏅 Perfect Attendance (100%)</h3>
+          <h3 className="font-display text-foreground mb-4 border-b border-accent pb-2">Perfect Attendance (100%)</h3>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {data.perfect.map((r: any) => (
               <div key={r.m.id} className="rounded-xl p-5 text-center border-2 border-accent bg-accent/5">
-                <div className="text-3xl mb-2">👑</div>
+                <div className="text-sm font-bold text-accent mb-2">Top</div>
                 <div className="font-display font-bold text-foreground">{r.m.first_name} {r.m.last_name}</div>
                 <div className="text-xs uppercase tracking-wider text-primary">{r.m.part}</div>
                 <div className="font-display text-2xl font-bold text-accent mt-2">100%</div>
@@ -73,7 +73,7 @@ const AchieversPage = () => {
 
       {/* Top 3 */}
       <div className="bg-card rounded-xl p-6 border border-border">
-        <h3 className="font-display text-foreground mb-4 border-b border-accent pb-2">🥇 Top 3 Overall Performers</h3>
+        <h3 className="font-display text-foreground mb-4 border-b border-accent pb-2">Top 3 Overall Performers</h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {data.top3.map((r: any, i: number) => (
             <div key={r.m.id} className="rounded-xl p-5 text-center border-2 border-accent bg-accent/5">
@@ -91,9 +91,9 @@ const AchieversPage = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {data.bestByPart.map((r: any) => (
           <div key={r.part} className="bg-card rounded-xl p-6 border border-border">
-            <h3 className="font-display text-foreground mb-4">🎵 Best in {r.part}</h3>
+            <h3 className="font-display text-foreground mb-4">Best in {r.part}</h3>
             <div className="rounded-xl p-5 text-center border-2 border-accent bg-accent/5 max-w-xs mx-auto">
-              <div className="text-3xl mb-2">🏆</div>
+              <div className="text-sm font-bold text-accent mb-2">Top</div>
               <div className="font-display font-bold text-foreground">{r.m.first_name} {r.m.last_name}</div>
               <div className="text-xs uppercase tracking-wider text-primary">{r.m.part}</div>
               <div className="font-display text-2xl font-bold text-accent mt-2">{r.pct}%</div>
