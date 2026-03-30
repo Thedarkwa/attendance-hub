@@ -203,7 +203,7 @@ const ReportsPage = () => {
       {/* Poor Attendance */}
       <div className="bg-card rounded-xl p-6 border border-border">
         <h3 className="font-display text-foreground mb-4 border-b border-accent pb-2">
-          ⚠️ Poor Attendance (2+ absences in selected month)
+          Poor Attendance (2+ absences in selected month)
         </h3>
         {report.poorAtt.length === 0 ? (
           <p className="text-success py-4">No members with poor attendance this period. 🎉</p>
