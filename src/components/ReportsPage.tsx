@@ -64,9 +64,58 @@ const ReportsPage = () => {
     return { rows, avgPct, poorAtt, partsData, distData, totalSessions: dates.length };
   }, [type, period, monthVal, members, attendance]);
 
+  const exportToExcel = () => {
+    const wb = XLSX.utils.book_new();
+
+    // Attendance Report sheet
+    const reportData = report.rows.map((r, i) => ({
+      "#": i + 1,
+      "Name": `${r.m.first_name} ${r.m.last_name}`,
+      "Part": r.m.part,
+      "Total Sessions": r.totalSessions,
+      "Present": r.present,
+      "Absent": r.absent,
+      "Performance (%)": r.pct,
+    }));
+    const ws1 = XLSX.utils.json_to_sheet(reportData);
+    XLSX.utils.book_append_sheet(wb, ws1, "Attendance Report");
+
+    // Poor Attendance sheet
+    if (report.poorAtt.length > 0) {
+      const poorData = report.poorAtt.map((r, i) => ({
+        "#": i + 1,
+        "Name": `${r.m.first_name} ${r.m.last_name}`,
+        "Part": r.m.part,
+        "Performance (%)": r.pct,
+      }));
+      const ws2 = XLSX.utils.json_to_sheet(poorData);
+      XLSX.utils.book_append_sheet(wb, ws2, "Poor Attendance");
+    }
+
+    // Raw attendance data sheet
+    const rawData = attendance.map((a: any) => {
+      const member = members.find((m: any) => m.id === a.member_id);
+      return {
+        "Date": a.date,
+        "Name": member ? `${member.first_name} ${member.last_name}` : "Unknown",
+        "Part": member?.part || "",
+        "Status": a.status,
+      };
+    });
+    const ws3 = XLSX.utils.json_to_sheet(rawData);
+    XLSX.utils.book_append_sheet(wb, ws3, "Raw Data");
+
+    XLSX.writeFile(wb, `VVG_Attendance_${type}_${period}_${monthVal}.xlsx`);
+  };
+
   return (
     <div className="space-y-6">
-      <h2 className="font-display text-2xl text-foreground">Reports</h2>
+      <div className="flex items-center justify-between flex-wrap gap-4">
+        <h2 className="font-display text-2xl text-foreground">Reports</h2>
+        <Button onClick={exportToExcel} className="bg-gradient-to-r from-success to-emerald-400 text-foreground">
+          <Download className="w-4 h-4 mr-1" /> Export to Excel
+        </Button>
+      </div>
 
       {/* Filters */}
       <div className="bg-card/50 rounded-xl p-4 border border-border flex gap-4 flex-wrap items-end">
