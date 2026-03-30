@@ -112,7 +112,7 @@ const ReportsPage = () => {
     <div className="space-y-6">
       <div className="flex items-center justify-between flex-wrap gap-4">
         <h2 className="font-display text-2xl text-foreground">Reports</h2>
-        <Button onClick={exportToExcel} className="bg-gradient-to-r from-success to-emerald-400 text-foreground">
+        <Button onClick={exportToExcel} className="bg-success text-success-foreground">
           <Download className="w-4 h-4 mr-1" /> Export to Excel
         </Button>
       </div>
