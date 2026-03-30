@@ -13,12 +13,12 @@ export async function fetchMembers() {
 export async function addMember(member: {
   first_name: string;
   last_name: string;
-  part: string;
+  part: "Soprano" | "Alto" | "Tenor" | "Bass" | "Director";
   phone?: string;
   email?: string;
   join_date?: string;
 }) {
-  const { data, error } = await supabase.from("members").insert(member).select().single();
+  const { data, error } = await supabase.from("members").insert([member]).select().single();
   if (error) throw error;
   return data;
 }
