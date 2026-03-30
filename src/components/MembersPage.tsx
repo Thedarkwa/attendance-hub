@@ -199,7 +199,7 @@ const MembersPage = () => {
           </div>
           <div className="flex justify-end gap-3 mt-4">
             <Button variant="outline" onClick={() => setModalOpen(false)} className="border-border text-foreground">Cancel</Button>
-            <Button onClick={handleSave} className="bg-gradient-to-r from-primary to-accent text-primary-foreground">
+            <Button onClick={handleSave} className="bg-primary text-primary-foreground">
               {editId ? "Update" : "Add Member"}
             </Button>
           </div>
