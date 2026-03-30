@@ -3,6 +3,9 @@ import { useQuery } from "@tanstack/react-query";
 import { fetchMembers, fetchAllAttendance } from "@/lib/queries";
 import { getSundaysInMonth, formatDate, currentMonthStr } from "@/lib/dateUtils";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from "recharts";
+import * as XLSX from "xlsx";
+import { Download } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 const PART_COLORS: Record<string, string> = { Soprano: "#e74c3c", Alto: "#9b59b6", Tenor: "#3498db", Bass: "#27ae60" };
 
