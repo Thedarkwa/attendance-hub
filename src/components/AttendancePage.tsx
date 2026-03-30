@@ -70,7 +70,7 @@ const AttendancePage = () => {
             onChange={(e) => setDate(e.target.value)}
             className="rounded-lg bg-card border border-border px-4 py-2 text-foreground text-sm"
           />
-          <Button onClick={handleCloseAttendance} className="bg-gradient-to-r from-secondary to-destructive">
+          <Button onClick={handleCloseAttendance} className="bg-destructive text-destructive-foreground">
             <Lock className="w-4 h-4 mr-1" /> Close Attendance
           </Button>
         </div>

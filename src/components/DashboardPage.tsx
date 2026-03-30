@@ -91,15 +91,15 @@ const DashboardPage = () => {
       {/* Stats */}
       <div className="grid grid-cols-2 sm:grid-cols-5 gap-4">
         {[
-          { label: "Total Members", value: stats.total, gradient: "from-primary to-accent" },
-          { label: "Avg Present", value: stats.avgPresent, gradient: "from-success to-emerald-400" },
-          { label: "Avg Absent", value: stats.avgAbsent, gradient: "from-destructive to-red-400" },
-          { label: "Attendance Rate", value: `${stats.pct}%`, gradient: "from-primary to-amber-500" },
-          { label: "Sessions", value: stats.sessions, gradient: "from-purple-600 to-purple-400" },
+          { label: "Total Members", value: stats.total, bg: "bg-primary" },
+          { label: "Avg Present", value: stats.avgPresent, bg: "bg-success" },
+          { label: "Avg Absent", value: stats.avgAbsent, bg: "bg-destructive" },
+          { label: "Attendance Rate", value: `${stats.pct}%`, bg: "bg-accent" },
+          { label: "Sessions", value: stats.sessions, bg: "bg-secondary" },
         ].map((s) => (
-          <div key={s.label} className={`rounded-xl p-5 text-center bg-gradient-to-br ${s.gradient} shadow-lg`}>
-            <div className="font-display text-3xl font-bold text-foreground">{s.value}</div>
-            <div className="text-xs uppercase tracking-wider text-foreground/80 mt-1">{s.label}</div>
+          <div key={s.label} className={`rounded-xl p-5 text-center ${s.bg} shadow-sm`}>
+            <div className="font-display text-3xl font-bold text-primary-foreground">{s.value}</div>
+            <div className="text-xs uppercase tracking-wider text-primary-foreground/80 mt-1">{s.label}</div>
           </div>
         ))}
       </div>

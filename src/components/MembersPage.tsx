@@ -79,7 +79,7 @@ const MembersPage = () => {
     <div className="space-y-6">
       <div className="flex items-center justify-between flex-wrap gap-4">
         <h2 className="font-display text-2xl text-foreground">Member Directory</h2>
-        <Button onClick={openAdd} className="bg-gradient-to-r from-primary to-accent text-primary-foreground">
+        <Button onClick={openAdd} className="bg-primary text-primary-foreground">
           <Plus className="w-4 h-4 mr-1" /> Add Member
         </Button>
       </div>
@@ -199,7 +199,7 @@ const MembersPage = () => {
           </div>
           <div className="flex justify-end gap-3 mt-4">
             <Button variant="outline" onClick={() => setModalOpen(false)} className="border-border text-foreground">Cancel</Button>
-            <Button onClick={handleSave} className="bg-gradient-to-r from-primary to-accent text-primary-foreground">
+            <Button onClick={handleSave} className="bg-primary text-primary-foreground">
               {editId ? "Update" : "Add Member"}
             </Button>
           </div>
