@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
+import victoryLogo from "@/assets/victory_logo.jpeg";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -37,9 +38,7 @@ const Login = () => {
   return (
     <div className="min-h-screen flex items-center justify-center p-4 bg-background">
       <div className="w-full max-w-md rounded-2xl bg-card p-10 shadow-lg border border-border">
-        <div className="flex items-center justify-center w-20 h-20 rounded-full bg-primary mx-auto mb-4">
-          <span className="font-display text-primary-foreground text-2xl font-bold">VVG</span>
-        </div>
+        <img src={victoryLogo} alt="Victory Vocals Ghana" className="h-20 mx-auto mb-4 object-contain" />
         <h1 className="font-display text-2xl text-center text-foreground font-bold mb-1">
           Victory Vocals Ghana
         </h1>
