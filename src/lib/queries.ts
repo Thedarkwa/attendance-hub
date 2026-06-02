@@ -48,10 +48,13 @@ export async function fetchAllAttendance() {
   return data;
 }
 
-export async function markAttendance(member_id: string, date: string, status: string) {
+export async function markAttendance(member_id: string, date: string, status: string, reason?: string | null) {
+  const payload: any = { member_id, date, status };
+  if (status === "Absent") payload.reason = reason ?? null;
+  else payload.reason = null;
   const { error } = await supabase
     .from("attendance")
-    .upsert({ member_id, date, status }, { onConflict: "member_id,date" });
+    .upsert(payload, { onConflict: "member_id,date" });
   if (error) throw error;
 }
 
