@@ -63,11 +63,12 @@ export async function deleteAttendance(id: string) {
   if (error) throw error;
 }
 
-export async function bulkMarkAbsent(memberIds: string[], date: string) {
+export async function bulkMarkAbsent(memberIds: string[], date: string, reason?: string | null) {
   const records = memberIds.map((member_id) => ({
     member_id,
     date,
     status: "Absent",
+    reason: reason ?? null,
   }));
   const { error } = await supabase
     .from("attendance")
