@@ -48,10 +48,13 @@ export async function fetchAllAttendance() {
   return data;
 }
 
-export async function markAttendance(member_id: string, date: string, status: string) {
+export async function markAttendance(member_id: string, date: string, status: string, reason?: string | null) {
+  const payload: any = { member_id, date, status };
+  if (status === "Absent") payload.reason = reason ?? null;
+  else payload.reason = null;
   const { error } = await supabase
     .from("attendance")
-    .upsert({ member_id, date, status }, { onConflict: "member_id,date" });
+    .upsert(payload, { onConflict: "member_id,date" });
   if (error) throw error;
 }
 
@@ -60,11 +63,12 @@ export async function deleteAttendance(id: string) {
   if (error) throw error;
 }
 
-export async function bulkMarkAbsent(memberIds: string[], date: string) {
+export async function bulkMarkAbsent(memberIds: string[], date: string, reason?: string | null) {
   const records = memberIds.map((member_id) => ({
     member_id,
     date,
     status: "Absent",
+    reason: reason ?? null,
   }));
   const { error } = await supabase
     .from("attendance")
