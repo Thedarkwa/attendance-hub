@@ -1,8 +1,15 @@
 import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { fetchMembers, fetchAttendance, markAttendance, deleteAttendance, bulkMarkAbsent } from "@/lib/queries";
-import { todayStr, formatDate } from "@/lib/dateUtils";
+import { todayStr } from "@/lib/dateUtils";
 import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+} from "@/components/ui/dialog";
 import { toast } from "sonner";
 import { Check, Lock, Trash2 } from "lucide-react";
 
@@ -13,10 +20,20 @@ const PART_BADGE: Record<string, string> = {
   Bass: "bg-success/15 text-success",
 };
 
+const REASON_OPTIONS = ["School", "Work", "Sick", "Travel", "Family", "Other"];
+
 const AttendancePage = () => {
   const [date, setDate] = useState(todayStr());
   const [partFilter, setPartFilter] = useState("");
   const qc = useQueryClient();
+
+  // Reason dialog state
+  const [reasonOpen, setReasonOpen] = useState(false);
+  const [reasonMode, setReasonMode] = useState<"single" | "bulk">("single");
+  const [pendingMemberId, setPendingMemberId] = useState<string | null>(null);
+  const [pendingBulkIds, setPendingBulkIds] = useState<string[]>([]);
+  const [reasonChoice, setReasonChoice] = useState<string>("School");
+  const [reasonNote, setReasonNote] = useState<string>("");
 
   const { data: members = [] } = useQuery({ queryKey: ["members"], queryFn: fetchMembers });
   const { data: attendance = [] } = useQuery({
@@ -31,8 +48,8 @@ const AttendancePage = () => {
   const attMap = new Map(attendance.map((a: any) => [a.member_id, a]));
 
   const markMut = useMutation({
-    mutationFn: ({ member_id, status }: { member_id: string; status: string }) =>
-      markAttendance(member_id, date, status),
+    mutationFn: ({ member_id, status, reason }: { member_id: string; status: string; reason?: string | null }) =>
+      markAttendance(member_id, date, status, reason),
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: ["attendance"] });
       qc.invalidateQueries({ queryKey: ["attendance-all"] });
@@ -47,16 +64,44 @@ const AttendancePage = () => {
     },
   });
 
-  const handleCloseAttendance = async () => {
+  const openAbsentReason = (memberId: string) => {
+    setReasonMode("single");
+    setPendingMemberId(memberId);
+    setReasonChoice("School");
+    setReasonNote("");
+    setReasonOpen(true);
+  };
+
+  const handleCloseAttendance = () => {
     const unmarked = choirMembers.filter((m: any) => !attMap.has(m.id));
     if (!unmarked.length) {
       toast.info("All members already marked.");
       return;
     }
-    await bulkMarkAbsent(unmarked.map((m: any) => m.id), date);
-    qc.invalidateQueries({ queryKey: ["attendance"] });
-    qc.invalidateQueries({ queryKey: ["attendance-all"] });
-    toast.success(`${unmarked.length} member(s) marked Absent.`);
+    setReasonMode("bulk");
+    setPendingBulkIds(unmarked.map((m: any) => m.id));
+    setReasonChoice("Other");
+    setReasonNote("");
+    setReasonOpen(true);
+  };
+
+  const confirmReason = async () => {
+    const finalReason = reasonChoice === "Other" && reasonNote.trim()
+      ? reasonNote.trim()
+      : reasonChoice;
+
+    if (reasonMode === "single" && pendingMemberId) {
+      await markMut.mutateAsync({ member_id: pendingMemberId, status: "Absent", reason: finalReason });
+      toast.success("Marked Absent");
+    } else if (reasonMode === "bulk") {
+      await bulkMarkAbsent(pendingBulkIds, date, finalReason);
+      qc.invalidateQueries({ queryKey: ["attendance"] });
+      qc.invalidateQueries({ queryKey: ["attendance-all"] });
+      toast.success(`${pendingBulkIds.length} member(s) marked Absent.`);
+    }
+    setReasonOpen(false);
+    setPendingMemberId(null);
+    setPendingBulkIds([]);
   };
 
   return (
@@ -103,6 +148,7 @@ const AttendancePage = () => {
               <th className="px-4 py-3 text-left">Name</th>
               <th className="px-4 py-3 text-left">Part</th>
               <th className="px-4 py-3 text-left">Status</th>
+              <th className="px-4 py-3 text-left">Reason</th>
               <th className="px-4 py-3 text-left rounded-tr-lg">Actions</th>
             </tr>
           </thead>
@@ -128,22 +174,25 @@ const AttendancePage = () => {
                       {status}
                     </span>
                   </td>
+                  <td className="px-4 py-3 text-muted-foreground">
+                    {status === "Absent" ? (rec?.reason || "—") : "—"}
+                  </td>
                   <td className="px-4 py-3 flex gap-2">
                     {status !== "Present" && (
                       <Button
                         size="sm"
                         className="bg-success hover:bg-success/90 text-foreground"
-                        onClick={() => markMut.mutate({ member_id: m.id, status: "Present" })}
+                        onClick={() => markMut.mutate({ member_id: m.id, status: "Present", reason: null })}
                       >
                         <Check className="w-3 h-3 mr-1" /> Present
                       </Button>
                     )}
-                    {status === "Present" && (
+                    {status !== "Absent" && (
                       <Button
                         size="sm"
                         variant="outline"
                         className="border-warning text-warning"
-                        onClick={() => markMut.mutate({ member_id: m.id, status: "Absent" })}
+                        onClick={() => openAbsentReason(m.id)}
                       >
                         Mark Absent
                       </Button>
@@ -168,6 +217,51 @@ const AttendancePage = () => {
           <p className="text-center text-muted-foreground py-8">No members found. Add members first.</p>
         )}
       </div>
+
+      {/* Reason dialog */}
+      <Dialog open={reasonOpen} onOpenChange={setReasonOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>
+              {reasonMode === "bulk"
+                ? `Reason for ${pendingBulkIds.length} absent member(s)`
+                : "Reason for absence"}
+            </DialogTitle>
+          </DialogHeader>
+          <div className="space-y-3">
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+              {REASON_OPTIONS.map((opt) => (
+                <button
+                  key={opt}
+                  type="button"
+                  onClick={() => setReasonChoice(opt)}
+                  className={`px-3 py-2 rounded-lg border text-sm font-semibold transition ${
+                    reasonChoice === opt
+                      ? "bg-primary text-primary-foreground border-primary"
+                      : "bg-card text-foreground border-border hover:bg-muted"
+                  }`}
+                >
+                  {opt}
+                </button>
+              ))}
+            </div>
+            {reasonChoice === "Other" && (
+              <input
+                type="text"
+                value={reasonNote}
+                onChange={(e) => setReasonNote(e.target.value)}
+                placeholder="Specify reason..."
+                maxLength={200}
+                className="w-full rounded-lg bg-card border border-border px-4 py-2 text-foreground text-sm"
+              />
+            )}
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setReasonOpen(false)}>Cancel</Button>
+            <Button onClick={confirmReason}>Save</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
